@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Boost</title>
+<style>
+:root{
+  --navy:#18233a;--purple:#7257d9;--pink:#ef6fa9;--sky:#e9f4ff;
+  --cream:#fffaf5;--white:#fff;--text:#273044;--muted:#748096;
+  --line:#e8eaf0;--green:#42a879;--yellow:#f4c95d;
+  --shadow:0 15px 35px rgba(30,42,70,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f7fb;color:var(--text)}
+button,input{font:inherit}button{cursor:pointer}
+.header{background:var(--navy);color:white;padding:18px 6%;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:30}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px}
+.logo-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--pink),var(--purple));display:grid;place-items:center}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav button{border:0;background:transparent;color:#cbd2e2;padding:10px 13px;border-radius:10px;font-weight:700}
+.nav button:hover,.nav button.active{background:#2b3855;color:white}
+.container{width:min(1180px,92%);margin:auto;padding:30px 0 50px}
+.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(120deg,#7257d9,#9a62d7 55%,#ef6fa9);border-radius:30px;padding:38px;color:white;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;overflow:hidden;box-shadow:var(--shadow)}
+.hero h1{font-size:46px;line-height:1.05;margin:0 0 15px}.hero p{line-height:1.7;max-width:650px;color:#f8f4ff}
+.hero-btn{border:0;background:white;color:#6049c4;padding:13px 18px;border-radius:12px;font-weight:850}
+.hero-art{display:grid;place-items:center;font-size:110px;opacity:.95}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:30px 0 16px}
+.section-head h2{margin:0;font-size:28px}.section-head p{margin:5px 0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.stat,.card{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:21px;box-shadow:var(--shadow)}
+.stat b{font-size:27px}.stat span{display:block;color:var(--muted);font-size:13px;margin-top:5px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card h3{margin:0 0 8px}.card p{color:var(--muted);line-height:1.55}
+.icon{font-size:30px;margin-bottom:12px}
+.btn{border:0;background:var(--purple);color:white;padding:10px 14px;border-radius:10px;font-weight:800}
+.btn.green{background:var(--green)}.btn.light{background:#f0edff;color:#5f49bf}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.lesson{display:grid;grid-template-columns:60px 1fr auto;gap:14px;align-items:center}
+.lesson-icon{width:60px;height:60px;border-radius:17px;background:var(--sky);display:grid;place-items:center;font-size:28px}
+.tag{display:inline-block;padding:5px 9px;border-radius:99px;background:#f0edff;color:#6049c4;font-size:11px;font-weight:850}
+.done{background:#eaf8f1;color:#258456;padding:6px 9px;border-radius:99px;font-size:11px;font-weight:850}
+.vocab-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.word-card{min-height:330px;background:linear-gradient(145deg,#fff3f8,#f1efff);border-radius:25px;padding:35px;display:flex;flex-direction:column;justify-content:center;text-align:center;box-shadow:var(--shadow)}
+.word-card .word{font-size:55px;font-weight:950;color:#6049c4}.word-card small{color:var(--pink);font-weight:900;letter-spacing:1px}
+.options{display:grid;gap:10px;margin:15px 0}.option{border:1px solid var(--line);background:white;padding:13px;border-radius:12px;text-align:left}.option:hover{border-color:var(--purple)}
+.feedback{min-height:25px;font-weight:800}
+.rule{background:#f3f7ff;border-left:5px solid var(--purple);padding:16px;border-radius:12px;margin:16px 0;line-height:1.7}
+.quiz-box{max-width:820px;margin:auto}.quiz-top{display:flex;justify-content:space-between;color:var(--muted)}
+.question{font-size:25px;font-weight:850;margin:28px 0 18px}.progress{height:9px;background:#eceef4;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--pink))}
+.input{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;margin:8px 0}
+.speak-row{display:flex;justify-content:space-between;gap:15px;padding:18px 0;border-bottom:1px solid var(--line)}
+.speak-row:last-child{border-bottom:0}.speak-row p{margin:5px 0;color:var(--muted)}
+.speak-btn{border:0;width:48px;height:48px;border-radius:50%;background:#f0edff;color:#6049c4;font-size:20px}
+.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px;border-bottom:1px solid var(--line)}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:850px){
+ .header{align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr}.hero-art{display:none}
+ .stats{grid-template-columns:1fr 1fr}.cards,.lesson-grid,.vocab-layout{grid-template-columns:1fr}
+}
+@media(max-width:550px){.nav{width:100%}.nav button{flex:1}.hero h1{font-size:35px}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="logo"><div class="logo-mark">EB</div> English Boost</div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard">Dashboard</button>
+    <button data-page="lessons">Lessons</button>
+    <button data-page="vocabulary">Vocabulary</button>
+    <button data-page="grammar">Grammar</button>
+    <button data-page="challenge">Challenge</button>
+    <button data-page="speaking">Speaking</button>
+    <button data-page="progress">Progress</button>
+  </nav>
+</header>
+
+<main class="container">
+<section id="dashboard" class="page active">
+  <div class="hero">
+    <div>
+      <div class="tag" style="background:rgba(255,255,255,.2);color:white">WELCOME TO ENGLISH BOOST</div>
+      <h1>Build better English, one skill at a time.</h1>
+      <p>Practice everyday conversations, useful vocabulary, sentence building, listening, and quick challenges in one simple learning space.</p>
+      <button class="hero-btn" onclick="showPage('lessons')">Start a lesson →</button>
+    </div>
+    <div class="hero-art">📚</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b id="dashPoints">0</b><span>Learning points</span></div>
+    <div class="stat"><b id="dashLessons">0</b><span>Lessons finished</span></div>
+    <div class="stat"><b id="dashWords">0</b><span>Vocabulary attempts</span></div>
+    <div class="stat"><b id="dashPercent">0%</b><span>Lesson progress</span></div>
+  </div>
+  <div class="section-head"><div><h2>Choose your focus</h2><p>Pick a skill and practice at your own pace.</p></div></div>
+  <div class="cards">
+    <div class="card"><div class="icon">🗣️</div><h3>Everyday English</h3><p>Learn phrases for school, friends, shopping, and daily conversations.</p><button class="btn" onclick="showPage('lessons')">Open lessons</button></div>
+    <div class="card"><div class="icon">🧠</div><h3>Smart Vocabulary</h3><p>Study useful words with simple meanings and examples.</p><button class="btn light" onclick="showPage('vocabulary')">Practice words</button></div>
+    <div class="card"><div class="icon">✍️</div><h3>Sentence Skills</h3><p>Improve sentence structure by practicing common grammar patterns.</p><button class="btn green" onclick="showPage('grammar')">Practice grammar</button></div>
+  </div>
+</section>
+
+<section id="lessons" class="page">
+ <div class="section-head"><div><h2>Skill Library</h2><p>Short lessons designed for practical English use.</p></div></div>
+ <div class="lesson-grid" id="lessonList"></div>
+</section>
+
+<section id="vocabulary" class="page">
+ <div class="section-head"><div><h2>Vocabulary Studio</h2><p>Choose the meaning that matches the word.</p></div></div>
+ <div class="vocab-layout">
+  <div class="word-card"><small>LEARN THIS WORD</small><div class="word" id="vWord">curious</div><p id="vMeaning">Wanting to know or learn something.</p><button class="btn" onclick="toggleMeaning()">Show / hide meaning</button></div>
+  <div class="card"><span class="tag">Quick Check</span><h3 id="vTitle">curious</h3><p>Which meaning is correct?</p><div class="options" id="vOptions"></div><p class="feedback" id="vFeedback"></p><button class="btn" onclick="nextWord()">Next word →</button></div>
+ </div>
+</section>
+
+<section id="grammar" class="page">
+ <div class="section-head"><div><h2>Grammar Workshop</h2><p>Learn a rule, then use it in a sentence.</p></div></div>
+ <div class="card">
+  <span class="tag">Lesson 01</span><h3>Present Simple vs. Present Continuous</h3>
+  <p>Use the <b>present simple</b> for habits or things that happen regularly. Use the <b>present continuous</b> for something happening now.</p>
+  <div class="rule"><b>Present simple:</b> I study English every day.<br><b>Present continuous:</b> I am studying English right now.</div>
+  <h3>Try it</h3><p>Choose the sentence that describes something happening now.</p>
+  <div class="options">
+   <button class="option" onclick="grammarCheck(this,false)">I read books every weekend.</button>
+   <button class="option" onclick="grammarCheck(this,true)">I am reading a book right now.</button>
+   <button class="option" onclick="grammarCheck(this,false)">I walk to school every day.</button>
+  </div>
+  <p class="feedback" id="grammarFeedback"></p>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <span class="tag">Sentence Builder</span><h3>Make a complete sentence</h3>
+  <p>Choose the best ending: “My friends are…”</p>
+  <div class="options">
+   <button class="option" onclick="sentenceCheck(this,true)">playing basketball outside.</button>
+   <button class="option" onclick="sentenceCheck(this,false)">play basketball yesterday.</button>
+   <button class="option" onclick="sentenceCheck(this,false)">plays basketball every day.</button>
+  </div>
+  <p class="feedback" id="sentenceFeedback"></p>
+ </div>
+</section>
+
+<section id="challenge" class="page">
+ <div class="section-head"><div><h2>Daily Challenge</h2><p>Answer five questions and collect points.</p></div></div>
+ <div class="card quiz-box">
+  <div class="quiz-top"><span id="qNumber">Question 1 / 5</span><span>Score: <b id="qScore">0</b></span></div>
+  <div class="progress" style="margin-top:12px"><i id="qProgress" style="width:20%"></i></div>
+  <div class="question" id="question"></div>
+  <div class="options" id="quizOptions"></div>
+  <p class="feedback" id="quizFeedback"></p>
+  <button class="btn" id="nextQuestion" style="display:none" onclick="nextQuestion()">Next →</button>
+ </div>
+</section>
+
+<section id="speaking" class="page">
+ <div class="section-head"><div><h2>Speaking Corner</h2><p>Listen to useful expressions and repeat them aloud.</p></div></div>
+ <div class="card">
+  <div class="speak-row"><div><b>How was your day?</b><p>A friendly question for starting a conversation.</p></div><button class="speak-btn" onclick="speak('How was your day?')">🔊</button></div>
+  <div class="speak-row"><div><b>Could you help me with this?</b><p>A polite way to ask someone for help.</p></div><button class="speak-btn" onclick="speak('Could you help me with this?')">🔊</button></div>
+  <div class="speak-row"><div><b>That sounds interesting!</b><p>Use this when you want to show interest.</p></div><button class="speak-btn" onclick="speak('That sounds interesting!')">🔊</button></div>
+  <div class="speak-row"><div><b>What do you mean?</b><p>Use this when you need more information.</p></div><button class="speak-btn" onclick="speak('What do you mean?')">🔊</button></div>
+ </div>
+ <div class="card" style="margin-top:16px"><h3>Practice your own sentence</h3><p>Type a sentence and listen to it.</p><input class="input" id="speakInput" placeholder="Example: I want to improve my English."><button class="btn" onclick="speak(document.getElementById('speakInput').value)">🔊 Listen</button></div>
+</section>
+
+<section id="progress" class="page">
+ <div class="section-head"><div><h2>My Learning Progress</h2><p>Track the skills you have practiced.</p></div></div>
+ <div class="stats">
+  <div class="stat"><b id="pPoints">0</b><span>Total points</span></div>
+  <div class="stat"><b id="pLessons">0</b><span>Lessons completed</span></div>
+  <div class="stat"><b id="pWords">0</b><span>Word attempts</span></div>
+  <div class="stat"><b id="pPercent">0%</b><span>Completion</span></div>
+ </div>
+ <div class="card" style="margin-top:18px">
+  <h3>Learning Checklist</h3>
+  <table class="table"><thead><tr><th>Activity</th><th>Status</th></tr></thead><tbody id="checklist"></tbody></table>
+  <br><button class="btn" onclick="resetProgress()">Reset progress</button>
+ </div>
+</section>
+<footer>English Boost • Learn • Practice • Communicate 🚀</footer>
+</main>
+
+<script>
+const state=JSON.parse(localStorage.getItem('englishBoost')||'{"done":[],"points":0,"words":0}');
+const lessons=[
+ ['👋','Conversation','Introducing Yourself','Practice sharing your name, interests, and simple personal information.'],
+ ['🏫','School','Classroom English','Learn useful phrases for asking questions and participating in class.'],
+ ['🛍️','Daily Life','Shopping Conversations','Practice asking about prices, sizes, colors, and choices.'],
+ ['🚌','Travel','Getting Around','Learn simple expressions for asking directions and transportation.'],
+ ['💬','Social','Giving Opinions','Practice agreeing, disagreeing, and sharing ideas politely.'],
+ ['✉️','Writing','Clear Messages','Build short messages with a greeting, purpose, and closing.']
+];
+const words=[
+ ['curious','wanting to know or learn something',['interested in learning','very tired','easy to break']],
+ ['confident','feeling sure about your ability',['sure of yourself','afraid of everything','very quiet']],
+ ['improve','to make something better',['make better','make smaller','make louder']],
+ ['patient','able to wait calmly',['able to wait calmly','always in a hurry','easy to surprise']],
+ ['specific','clear and exact rather than general',['clear and exact','very expensive','full of noise']]
+];
+const questions=[
+ ['Which sentence is correct?',['She is studying now.','She are studying now.','She studying now.','She is study now.'],0],
+ ['What does “improve” mean?',['To make better','To forget','To stop'],0],
+ ['Which is a polite request?',['Give me that.','Could you help me, please?','Help now.'],1],
+ ['Choose the correct sentence.',['I went to school yesterday.','I go to school yesterday.','I going school yesterday.'],0],
+ ['Which phrase asks for clarification?',['See you tomorrow.','What do you mean?','I like it.'],1]
+];
+
+function save(){localStorage.setItem('englishBoost',JSON.stringify(state));updateUI()}
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+
+function renderLessons(){
+ document.getElementById('lessonList').innerHTML=lessons.map((l,i)=>`
+ <div class="card lesson"><div class="lesson-icon">${l[0]}</div><div><span class="tag">${l[1]}</span><h3>${l[2]}</h3><p>${l[3]}</p></div>
+ ${state.done.includes(i)?'<span class="done">✓ Finished</span>':`<button class="btn" onclick="finishLesson(${i})">Finish</button>`}</div>`).join('');
+}
+function finishLesson(i){if(!state.done.includes(i)){state.done.push(i);state.points+=10;save();renderLessons()}}
+let wi=0,meaningVisible=true;
+function renderWord(){
+ const w=words[wi];document.getElementById('vWord').textContent=w[0];document.getElementById('vTitle').textContent=w[0];
+ document.getElementById('vMeaning').textContent=meaningVisible?w[1]:'Tap the button to reveal the meaning.';
+ let opts=[w[2][0],w[2][1],w[2][2]].sort(()=>Math.random()-.5);
+ document.getElementById('vOptions').innerHTML=opts.map(x=>`<button class="option" onclick="wordAnswer(this,${JSON.stringify(x)})">${x}</button>`).join('');
+ document.getElementById('vFeedback').textContent='';
+}
+function toggleMeaning(){meaningVisible=!meaningVisible;renderWord()}
+function wordAnswer(btn,x){
+ const w=words[wi];document.querySelectorAll('#vOptions button').forEach(b=>b.disabled=true);
+ if(x===w[1]||x===w[2][0]){btn.style.background='#eaf8f1';document.getElementById('vFeedback').textContent='✓ Correct! +5 points';state.points+=5}
+ else{btn.style.background='#fff0f2';document.getElementById('vFeedback').textContent='Not quite. Try the next word!'}
+ state.words++;save();
+}
+function nextWord(){wi=(wi+1)%words.length;meaningVisible=true;renderWord()}
+function grammarCheck(btn,ok){document.querySelectorAll('#grammar .option').forEach(b=>b.disabled=true);btn.style.background=ok?'#eaf8f1':'#fff0f2';document.getElementById('grammarFeedback').textContent=ok?'✓ Correct! The action is happening now.':'Try again. Look for the action happening right now.';if(ok){state.points+=5;save()}}
+function sentenceCheck(btn,ok){document.querySelectorAll('#grammar .card:last-child .option').forEach(b=>b.disabled=true);btn.style.background=ok?'#eaf8f1':'#fff0f2';document.getElementById('sentenceFeedback').textContent=ok?'✓ Correct sentence!':'Check the verb form after “are”.';if(ok){state.points+=5;save()}}
+let qi=0,qscore=0,answered=false;
+function renderQuiz(){let q=questions[qi];answered=false;document.getElementById('qNumber').textContent=`Question ${qi+1} / ${questions.length}`;document.getElementById('qProgress').style.width=((qi+1)/questions.length*100)+'%';document.getElementById('question').textContent=q[0];document.getElementById('quizOptions').innerHTML=q[1].map((x,i)=>`<button class="option" onclick="answerQuiz(this,${i})">${x}</button>`).join('');document.getElementById('quizFeedback').textContent='';document.getElementById('nextQuestion').style.display='none'}
+function answerQuiz(btn,i){if(answered)return;answered=true;let q=questions[qi];document.querySelectorAll('#quizOptions .option').forEach((b,j)=>{if(j===q[2])b.style.background='#eaf8f1'});if(i===q[2]){qscore+=10;state.points+=10;document.getElementById('quizFeedback').textContent='✓ Correct! +10 points'}else{btn.style.background='#fff0f2';document.getElementById('quizFeedback').textContent='Not quite. The correct answer is highlighted.'}document.getElementById('qScore').textContent=qscore;document.getElementById('nextQuestion').style.display='inline-block';save()}
+function nextQuestion(){if(qi<questions.length-1){qi++;renderQuiz()}else{document.getElementById('quizFeedback').textContent=`Challenge complete! You earned ${qscore} points.`;document.getElementById('nextQuestion').textContent='Try again';document.getElementById('nextQuestion').onclick=()=>{qi=0;qscore=0;document.getElementById('nextQuestion').textContent='Next →';document.getElementById('nextQuestion').onclick=nextQuestion;renderQuiz()}}}
+function speak(text){if(!text)return;if('speechSynthesis'in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u)}}
+function updateUI(){
+ let pct=Math.round(state.done.length/lessons.length*100);
+ ['dashPoints','pPoints'].forEach(id=>document.getElementById(id).textContent=state.points);
+ ['dashLessons','pLessons'].forEach(id=>document.getElementById(id).textContent=state.done.length);
+ ['dashWords','pWords'].forEach(id=>document.getElementById(id).textContent=state.words);
+ ['dashPercent','pPercent'].forEach(id=>document.getElementById(id).textContent=pct+'%');
+ document.getElementById('checklist').innerHTML=lessons.map((l,i)=>`<tr><td>${l[0]} ${l[2]}</td><td>${state.done.includes(i)?'<span class="done">Completed</span>':'Not completed'}</td></tr>`).join('');
+}
+function resetProgress(){if(confirm('Reset all English Boost progress?')){localStorage.removeItem('englishBoost');location.reload()}}
+renderLessons();renderWord();renderQuiz();updateUI();
+</script>
+</body>
+</html>
